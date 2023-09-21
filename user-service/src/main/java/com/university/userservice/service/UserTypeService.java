@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.university.userservice.enums.Constants.*;
+
 @Service
 @Slf4j
 public class UserTypeService {
@@ -26,7 +28,7 @@ public class UserTypeService {
         UserType savedUserType = userTypeRepository.save(userType);
         UserTypeResponse userTypeResponse = new UserTypeResponse();
         BeanUtils.copyProperties(savedUserType, userTypeResponse);
-        log.info("userTypeResponse: {}", userTypeResponse);
+        log.info(USER_TYPE_RESPONSE.getValue(), userTypeResponse);
         return userTypeResponse;
     }
 
@@ -38,34 +40,34 @@ public class UserTypeService {
             BeanUtils.copyProperties(userType, userTypeResponse);
             userTypeResponseList.add(userTypeResponse);
         }
-        log.info("userTypeResponse: {}", userTypeResponseList);
+        log.info(USER_TYPE_RESPONSE.getValue(), userTypeResponseList);
         return userTypeResponseList;
     }
 
 
     public UserTypeResponse getUserTypeById(Integer userTypeId) {
-        UserType userType = userTypeRepository.findById(userTypeId).orElseThrow(() -> new NotFoundException("NO_DATA_FOUND: " + userTypeId));
+        UserType userType = userTypeRepository.findById(userTypeId).orElseThrow(() -> new NotFoundException(USER_TYPE_NOT_FOUND.getValue()));
         UserTypeResponse userTypeResponse = new UserTypeResponse();
         BeanUtils.copyProperties(userType, userTypeResponse);
-        log.info("userTypeResponse: {}", userTypeResponse);
+        log.info(USER_TYPE_RESPONSE.getValue(), userTypeResponse);
         return userTypeResponse;
     }
 
 
     public UserTypeResponse updateUserTypeById(Integer userTypeId, UserTypeRequest userTypeRequest) {
-        userTypeRepository.findById(userTypeId).orElseThrow(() -> new NotFoundException("NO_DATA_FOUND: " + userTypeId));
+        userTypeRepository.findById(userTypeId).orElseThrow(() -> new NotFoundException(USER_TYPE_NOT_FOUND.getValue()));
         UserType userType = new UserType();
         BeanUtils.copyProperties(userTypeRequest, userType);
         userType.setTypeId(userTypeId);
         UserType updatedUserType = userTypeRepository.save(userType);
         UserTypeResponse userTypeResponse = new UserTypeResponse();
         BeanUtils.copyProperties(updatedUserType, userTypeResponse);
-        log.info("userTypeResponse: {}", userTypeResponse);
+        log.info(USER_TYPE_RESPONSE.getValue(), userTypeResponse);
         return userTypeResponse;
     }
 
     public void deleteUserTypeById(Integer userTypeId) {
-        userTypeRepository.findById(userTypeId).orElseThrow(() -> new NotFoundException("NO_DATA_FOUND: " + userTypeId));
+        userTypeRepository.findById(userTypeId).orElseThrow(() -> new NotFoundException(USER_TYPE_NOT_FOUND.getValue()));
         userTypeRepository.deleteById(userTypeId);
     }
 

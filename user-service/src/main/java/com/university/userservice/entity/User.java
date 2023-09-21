@@ -33,8 +33,8 @@ public class User {
     @Column(name = "address")
     private String address;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_type_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "type_id")
     private UserType userType;
 
 }

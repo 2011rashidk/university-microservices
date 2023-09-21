@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.university.userservice.enums.Constants.*;
+
 @RestController
 @RequestMapping("api/university/user")
 @Slf4j
@@ -24,13 +26,13 @@ public class UserController {
     @PostMapping
     public ResponseEntity<Response> createUser(@Valid @RequestBody UserRequest userRequest,
                                                @RequestParam String userType) {
-        log.info("userRequest: {}", userRequest);
-        log.info("userType: {}", userType);
+        log.info(USER_REQUEST.getValue(), userRequest);
+        log.info(USER_TYPE.getValue(), userType);
         UserResponse userResponse = userService.createUser(userRequest, userType);
         return new ResponseEntity<>(
                 Response.builder()
                         .httpStatus(HttpStatus.CREATED)
-                        .message("User created successfully")
+                        .message(USER_CREATED.getValue())
                         .data(userResponse)
                         .build(), HttpStatus.CREATED);
     }
@@ -41,40 +43,42 @@ public class UserController {
         return new ResponseEntity<>(
                 Response.builder()
                         .httpStatus(HttpStatus.OK)
-                        .message("Users fetched successfully")
+                        .message(USER_RETRIEVED.getValue())
                         .data(userResponseList)
                         .build(), HttpStatus.OK);
     }
 
     @GetMapping("{userId}")
     public ResponseEntity<Response> getUserById(@PathVariable Integer userId) {
-        log.info("userId: {}", userId);
+        log.info(USER_ID.getValue(), userId);
         UserResponse userResponse = userService.getUserById(userId);
         return new ResponseEntity<>(
                 Response.builder()
                         .httpStatus(HttpStatus.OK)
-                        .message("User fetched successfully")
+                        .message(USER_RETRIEVED.getValue())
                         .data(userResponse)
                         .build(), HttpStatus.OK);
     }
 
     @PutMapping("{userId}")
     public ResponseEntity<Response> updateUser(@PathVariable Integer userId,
-                                               @Valid @RequestBody UserRequest userRequest) {
-        log.info("userId: {}", userId);
-        log.info("userRequest: {}", userRequest);
-        UserResponse userResponse = userService.updateUser(userId, userRequest);
+                                               @Valid @RequestBody UserRequest userRequest,
+                                               @RequestParam String userType) {
+        log.info(USER_ID.getValue(), userId);
+        log.info(USER_REQUEST.getValue(), userRequest);
+        log.info(USER_TYPE.getValue(), userType);
+        UserResponse userResponse = userService.updateUser(userId, userRequest, userType);
         return new ResponseEntity<>(
                 Response.builder()
                         .httpStatus(HttpStatus.OK)
-                        .message("User fetched successfully")
+                        .message(USER_UPDATED.getValue())
                         .data(userResponse)
                         .build(), HttpStatus.OK);
     }
 
     @DeleteMapping("{userId}")
-    public ResponseEntity<HttpStatus> updateUser(@PathVariable Integer userId) {
-        log.info("userId: {}", userId);
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable Integer userId) {
+        log.info(USER_ID.getValue(), userId);
         userService.deleteUser(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

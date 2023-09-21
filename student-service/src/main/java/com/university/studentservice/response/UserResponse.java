@@ -1,4 +1,4 @@
-package com.university.userservice.response;
+package com.university.studentservice.response;
 
 import lombok.Data;
 

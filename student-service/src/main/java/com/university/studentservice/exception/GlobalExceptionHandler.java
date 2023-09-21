@@ -1,6 +1,6 @@
-package com.university.userservice.exception;
+package com.university.studentservice.exception;
 
-import com.university.userservice.response.Response;
+import com.university.studentservice.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.university.userservice.enums.Constants.EXCEPTION;
+import static com.university.studentservice.enums.Constants.*;
 
 @RestControllerAdvice
 @Slf4j
