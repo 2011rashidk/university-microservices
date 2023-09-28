@@ -35,6 +35,7 @@ public class UserService {
         User user = new User();
         BeanUtils.copyProperties(userRequest, user);
         user.setUserType(type);
+        user.setActive(true);
         User savedUser = userRepository.save(user);
         UserResponse userResponse = new UserResponse();
         BeanUtils.copyProperties(savedUser, userResponse);
@@ -58,6 +59,7 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(USER_NOT_FOUND.getValue()));
         UserResponse userResponse = new UserResponse();
         BeanUtils.copyProperties(user, userResponse);
+        userResponse.setUserType(user.getUserType().getTypeName());
         log.info(USER_RESPONSE.getValue(), userResponse);
         return userResponse;
     }
@@ -72,6 +74,7 @@ public class UserService {
         BeanUtils.copyProperties(userRequest, user);
         user.setUserId(userId);
         user.setUserType(type);
+        user.setActive(true);
         User updatedUser = userRepository.save(user);
         UserResponse userResponse = new UserResponse();
         BeanUtils.copyProperties(updatedUser, userResponse);
@@ -80,8 +83,9 @@ public class UserService {
     }
 
     public void deleteUser(Integer userId) {
-        userRepository.findById(userId).orElseThrow(() -> new NotFoundException(USER_NOT_FOUND.getValue()));
-        userRepository.deleteById(userId);
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(USER_NOT_FOUND.getValue()));
+        user.setActive(false);
+        userRepository.save(user);
     }
 
 }

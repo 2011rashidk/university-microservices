@@ -20,7 +20,17 @@ public enum Constants {
     STUDENT_REQUEST("student_request: {}"),
     USER_ID("userId: {}"),
     RESPONSE("response: {}"),
-    STUDENT_ACTIVATED("Student profile activated");
+    STUDENT_ACTIVATED("Student profile activated"),
+    AVAILABLE_COURSES("Available courses: {}"),
+    COURSE_NOT_FOUND("Any or none of the courses found!"),
+    LIST_AFTER_ENROLLING_COURSE("List after enrolling course: "),
+    TOTAL_COURSE_LIST("Total course list: {}"),
+    COURSES_ENROLLED("Course/s enrolled successfully!"),
+    COURSE_REMOVED("Course/s removed!"),
+    COURSE_NOT_ENROLLED("Any or none of the courses enrolled!"),
+    COURSE_ENROLLED("Courses enrolled: {}"),
+    LIST_AFTER_REMOVING_COURSE("List after removing course: "),
+    NOT_A_STUDENT("Given user not a student!");
     private final String value;
 
     Constants(String value) {

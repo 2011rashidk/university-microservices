@@ -6,7 +6,7 @@ public enum Constants {
     USER_TYPE("userType: {}"),
     USER_CREATED("User created successfully"),
     USER_RETRIEVED("Users retrieved successfully"),
-    USER_ID("userId: {},"),
+    USER_ID("userId: {}"),
     USER_UPDATED("User updated successfully"),
     USER_TYPE_NOT_FOUND("User type not found"),
     USER_RESPONSE("userResponse: {}"),

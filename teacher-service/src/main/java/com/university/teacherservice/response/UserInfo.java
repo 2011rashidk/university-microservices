@@ -1,15 +1,15 @@
-package com.university.studentservice.response;
+package com.university.teacherservice.response;
 
 import lombok.Data;
 
 @Data
-public class UserResponse {
+public class UserInfo {
 
-    private Integer userId;
     private String firstname;
     private String lastname;
     private Integer age;
     private String email;
     private String mobile;
     private String address;
+    private String userType;
 }

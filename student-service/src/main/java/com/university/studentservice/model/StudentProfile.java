@@ -1,5 +1,6 @@
 package com.university.studentservice.model;
 
+import com.university.studentservice.response.UserInfo;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -8,6 +9,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -21,9 +23,11 @@ public class StudentProfile {
     @Indexed(unique = true)
     private Integer userId;
 
+    private UserInfo userInfo;
+
     private String qualification;
 
-    private List<String> coursesEnrolled;
+    private Set<String> coursesEnrolled;
 
     private List<String> softSkills;
 

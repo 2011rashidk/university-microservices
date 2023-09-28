@@ -3,6 +3,7 @@ package com.university.studentservice.service;
 import com.university.studentservice.client.UserServiceClient;
 import com.university.studentservice.request.StudentRequest;
 import com.university.studentservice.response.Response;
+import com.university.studentservice.response.UserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,10 +25,10 @@ public class StudentService {
         return response;
     }
 
-    public ResponseEntity<Response> getStudentById(Integer userId) {
-        ResponseEntity<Response> response = userServiceClient.getStudentById(userId);
-        log.info(RESPONSE.getValue(), response.getBody());
-        return response;
+    public UserInfo getStudentById(Integer userId) {
+        UserInfo userInfo = userServiceClient.getStudentById(userId);
+        log.info(RESPONSE.getValue(), userInfo);
+        return userInfo;
     }
 
     public ResponseEntity<Response> updateStudent(Integer userId, StudentRequest studentRequest) {

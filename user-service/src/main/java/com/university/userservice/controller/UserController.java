@@ -38,26 +38,14 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<Response> getUsers() {
-        List<UserResponse> userResponseList = userService.getUsers();
-        return new ResponseEntity<>(
-                Response.builder()
-                        .httpStatus(HttpStatus.OK)
-                        .message(USER_RETRIEVED.getValue())
-                        .data(userResponseList)
-                        .build(), HttpStatus.OK);
+    public List<UserResponse> getUsers() {
+        return userService.getUsers();
     }
 
     @GetMapping("{userId}")
-    public ResponseEntity<Response> getUserById(@PathVariable Integer userId) {
+    public UserResponse getUserById(@PathVariable Integer userId) {
         log.info(USER_ID.getValue(), userId);
-        UserResponse userResponse = userService.getUserById(userId);
-        return new ResponseEntity<>(
-                Response.builder()
-                        .httpStatus(HttpStatus.OK)
-                        .message(USER_RETRIEVED.getValue())
-                        .data(userResponse)
-                        .build(), HttpStatus.OK);
+        return userService.getUserById(userId);
     }
 
     @PutMapping("{userId}")

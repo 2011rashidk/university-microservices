@@ -2,6 +2,7 @@ package com.university.studentservice.client;
 
 import com.university.studentservice.request.StudentRequest;
 import com.university.studentservice.response.Response;
+import com.university.studentservice.response.UserInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ public interface UserServiceClient {
 
 
     @GetMapping("{userId}")
-    ResponseEntity<Response> getStudentById(@PathVariable Integer userId);
+    UserInfo getStudentById(@PathVariable Integer userId);
 
     @PutMapping("{userId}")
     ResponseEntity<Response> updateStudent(@PathVariable Integer userId,

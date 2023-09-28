@@ -2,6 +2,7 @@ package com.university.studentservice.controller;
 
 import com.university.studentservice.request.StudentRequest;
 import com.university.studentservice.response.Response;
+import com.university.studentservice.response.UserInfo;
 import com.university.studentservice.service.StudentService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ public class StudentController {
     }
 
     @GetMapping("{userId}")
-    public ResponseEntity<Response> getStudentById(@PathVariable Integer userId) {
+    public UserInfo getStudentById(@PathVariable Integer userId) {
         log.info(USER_ID.getValue(), userId);
         return studentService.getStudentById(userId);
     }

@@ -16,9 +16,6 @@ public class StudentProfileRequest {
     private String qualification;
 
     @NotEmpty
-    private List<String> coursesEnrolled;
-
-    @NotEmpty
     private List<String> softSkills;
 
     @NotEmpty

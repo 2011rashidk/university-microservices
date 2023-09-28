@@ -33,6 +33,9 @@ public class User {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "is_active")
+    private boolean isActive;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "type_id")
     private UserType userType;

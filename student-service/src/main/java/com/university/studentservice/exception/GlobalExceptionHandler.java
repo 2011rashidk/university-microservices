@@ -1,6 +1,7 @@
 package com.university.studentservice.exception;
 
 import com.university.studentservice.response.Response;
+import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -48,6 +49,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             errors.put(fieldName, errorMessage);
         });
         Response response = new Response(HttpStatus.BAD_REQUEST, errors.toString(), null);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FeignException.class)
+    public ResponseEntity<Response> handleFeignStatusException(FeignException ex) {
+        log.error(EXCEPTION.getValue(), ex.getMessage());
+        Response response = new Response(HttpStatus.valueOf(ex.status()), ex.getMessage(), null);
+        return new ResponseEntity<>(response, HttpStatus.valueOf(ex.status()));
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Response> badRequestException(BadRequestException ex) {
+        log.error(EXCEPTION.getValue(), ex.getMessage());
+        Response response = new Response(HttpStatus.BAD_REQUEST, ex.getMessage(), null);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 

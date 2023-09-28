@@ -1,6 +1,7 @@
 package com.university.studentservice.controller;
 
 import com.university.studentservice.model.StudentProfile;
+import com.university.studentservice.request.CourseRequest;
 import com.university.studentservice.request.StudentProfileRequest;
 import com.university.studentservice.response.Response;
 import com.university.studentservice.service.StudentProfileService;
@@ -12,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static com.university.studentservice.enums.Constants.*;
 
@@ -43,13 +46,9 @@ public class StudentProfileController {
     }
 
     @GetMapping("{studentId}")
-    public ResponseEntity<Response> getProfile(@PathVariable String studentId) {
+    public StudentProfile getProfile(@PathVariable String studentId) {
         log.info(STUDENT_ID.getValue(), studentId);
-        StudentProfile studentProfile = studentProfileService.getProfile(studentId);
-        return new ResponseEntity<>(Response.builder()
-                .httpStatus(HttpStatus.OK)
-                .message(STUDENT_PROFILE_RETRIEVED.getValue())
-                .data(studentProfile).build(), HttpStatus.OK);
+        return studentProfileService.getProfile(studentId);
     }
 
     @PutMapping("{studentId}")
@@ -80,6 +79,22 @@ public class StudentProfileController {
         return new ResponseEntity<>(Response.builder()
                 .httpStatus(HttpStatus.OK)
                 .message(STUDENT_ACTIVATED.getValue()).build(), HttpStatus.OK);
+    }
+
+    @PostMapping("enroll-course/{studentId}")
+    public ResponseEntity<Response> enrollCourse(@PathVariable String studentId,
+                                                 @Valid @RequestBody CourseRequest courseRequest) {
+        Map<String, Set<String>> assignedCourse = studentProfileService.enrollCourse(studentId, courseRequest);
+        return new ResponseEntity<>(
+                new Response(HttpStatus.OK, COURSES_ENROLLED.getValue(), assignedCourse), HttpStatus.OK);
+    }
+
+    @PostMapping("remove-course/{studentId}")
+    public ResponseEntity<Response> removeCourse(@PathVariable String studentId,
+                                                 @Valid @RequestBody CourseRequest courseRequest) {
+        Map<String, Set<String>> removedCourse = studentProfileService.removeCourse(studentId, courseRequest);
+        return new ResponseEntity<>(
+                new Response(HttpStatus.OK, COURSE_REMOVED.getValue(), removedCourse), HttpStatus.OK);
     }
 
 }
