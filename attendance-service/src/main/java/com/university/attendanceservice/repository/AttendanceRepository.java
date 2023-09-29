@@ -15,6 +15,5 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Integer>
             nativeQuery = true)
     List<Attendance> getAttendanceByCourseWithDate(Integer courseId, Date fromDate, Date toDate);
 
-    @Query(value = "select * from attendance_report where course_id = :courseId", nativeQuery = true)
-    List<Attendance> getAttendanceByCourse(Integer courseId);
+    List<Attendance> findByCourseId(Integer courseId);
 }

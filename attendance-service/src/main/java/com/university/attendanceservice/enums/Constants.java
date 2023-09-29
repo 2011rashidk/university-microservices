@@ -12,7 +12,7 @@ public enum Constants {
     TO_DATE("toDate: {}"),
     SPACE(" "),
     COURSE_ATTENDANCE_DETAILS("Course attendance details: {}"),
-    ATTENDANCE_LIST("attendanceList: {}");
+    DATE_WISE_ATTENDANCE("Date wise attendance: {}");
 
     private final String value;
 

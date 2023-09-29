@@ -60,24 +60,24 @@ public class AttendanceService {
         CourseResponse course = courseServiceClient.getCourseById(courseId);
         courseAttendanceDetails.setCourseId(courseId);
         courseAttendanceDetails.setCourseName(course.getCourseName());
-        Map<String, List<String>> dateWiseAttendanceWithName = getDateWiseAttendance(courseId, fromDate, toDate);
+        TreeMap<String, List<String>> dateWiseAttendanceWithName = getDateWiseAttendance(courseId, fromDate, toDate);
         courseAttendanceDetails.setDateWiseAttendance(dateWiseAttendanceWithName);
         log.info(COURSE_ATTENDANCE_DETAILS.getValue(), courseAttendanceDetails);
         return courseAttendanceDetails;
     }
 
-    private Map<String, List<String>> getDateWiseAttendance(Integer courseId, java.util.Date fromDate, java.util.Date toDate) {
+    private TreeMap<String, List<String>> getDateWiseAttendance(Integer courseId, java.util.Date fromDate, java.util.Date toDate) {
         List<Attendance> attendanceList;
         if (fromDate == null && toDate == null) {
-            attendanceList = attendanceRepository.getAttendanceByCourse(courseId);
+            attendanceList = attendanceRepository.findByCourseId(courseId);
         } else {
             attendanceList = attendanceRepository.getAttendanceByCourseWithDate(courseId, fromDate, toDate);
         }
-        log.info(ATTENDANCE_LIST.getValue(), attendanceList);
         Map<java.util.Date, List<String>> dateWiseAttendance = attendanceList.stream()
                 .collect(Collectors.groupingBy(Attendance::getClassDate,
                         Collectors.mapping(Attendance::getStudentId, Collectors.toList())));
-        Map<String, List<String>> dateWiseAttendanceWithName = new HashMap<>();
+        log.info(DATE_WISE_ATTENDANCE.getValue(), dateWiseAttendance);
+        TreeMap<String, List<String>> dateWiseAttendanceWithName = new TreeMap<>();
         dateWiseAttendance.forEach((key, value) -> {
             List<String> studentNameList = new ArrayList<>();
             for (String studentId : value) {
