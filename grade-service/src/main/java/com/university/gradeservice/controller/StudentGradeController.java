@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import static com.university.gradeservice.enums.Constants.*;
 
 @RestController
-@RequestMapping("api/university/student/grade")
+@RequestMapping("api/university/grade/student")
 @Slf4j
 public class StudentGradeController {
 
