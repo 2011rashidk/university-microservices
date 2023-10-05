@@ -22,6 +22,9 @@ public class UserRequest {
     private String email;
 
     @NotEmpty
+    private String password;
+
+    @NotEmpty
     private String mobile;
 
     @NotEmpty

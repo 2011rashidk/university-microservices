@@ -2,6 +2,7 @@ package com.university.gradeservice.service;
 
 import com.university.gradeservice.client.CourseServiceClient;
 import com.university.gradeservice.client.StudentServiceClient;
+import com.university.gradeservice.entity.Grade;
 import com.university.gradeservice.entity.StudentGrade;
 import com.university.gradeservice.exception.BadRequestException;
 import com.university.gradeservice.exception.NotFoundException;
@@ -45,12 +46,13 @@ public class StudentGradeService {
         }
         StudentGrade studentGrade = new StudentGrade();
         BeanUtils.copyProperties(studentGradeRequest, studentGrade);
-        String grade = gradeService.getGradeWithMarks(studentGradeRequest.getMarks());
+        Grade grade = gradeService.getGradeWithMarks(studentGradeRequest.getMarks());
         studentGrade.setGrade(grade);
         StudentGrade savedStudentGrade = studentGradeRepository.save(studentGrade);
         log.info(SAVED_STUDENT_GRADE.getValue(), savedStudentGrade);
         StudentGradeResponse studentGradeResponse = new StudentGradeResponse();
         BeanUtils.copyProperties(savedStudentGrade, studentGradeResponse);
+        studentGradeResponse.setGrade(studentGrade.getGrade().getGrade());
         return studentGradeResponse;
     }
 
@@ -59,6 +61,7 @@ public class StudentGradeService {
                 .orElseThrow(() -> new NotFoundException(NO_RECORD_FOUND.getValue()));
         StudentGradeResponse studentGradeResponse = new StudentGradeResponse();
         BeanUtils.copyProperties(studentGrade, studentGradeResponse);
+        studentGradeResponse.setGrade(studentGrade.getGrade().getGrade());
         log.info(STUDENT_GRADE_RESPONSE.getValue(), studentGradeResponse);
         return studentGradeResponse;
     }
@@ -74,7 +77,7 @@ public class StudentGradeService {
         TreeMap<String, String> studentIdGrade = new TreeMap<>();
         for (StudentGrade studentGrade : studentGradeList) {
             String studentName = getStudentName(studentGrade.getStudentId());
-            studentIdGrade.put(studentName, studentGrade.getGrade());
+            studentIdGrade.put(studentName, studentGrade.getGrade().getGrade());
         }
         studentCourseGrade.setStudentGrade(studentIdGrade);
         log.info(STUDENT_COURSE_GRADE.getValue(), studentCourseGrade);

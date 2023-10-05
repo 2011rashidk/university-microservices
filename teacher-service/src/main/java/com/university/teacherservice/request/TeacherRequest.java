@@ -22,6 +22,9 @@ public class TeacherRequest {
     private String email;
 
     @NotEmpty
+    private String password;
+
+    @NotEmpty
     private String mobile;
 
     @NotEmpty

@@ -3,6 +3,7 @@ package com.university.attendanceservice.service;
 import com.university.attendanceservice.client.CourseServiceClient;
 import com.university.attendanceservice.client.StudentServiceClient;
 import com.university.attendanceservice.entity.Attendance;
+import com.university.attendanceservice.exception.BadRequestException;
 import com.university.attendanceservice.exception.NotFoundException;
 import com.university.attendanceservice.repository.AttendanceRepository;
 import com.university.attendanceservice.request.AttendanceRequest;
@@ -33,8 +34,13 @@ public class AttendanceService {
     StudentServiceClient studentServiceClient;
 
     public AttendanceResponse postAttendance(AttendanceRequest attendanceRequest) {
-        studentServiceClient.getProfile(attendanceRequest.getStudentId());
-        courseServiceClient.getCourseById(attendanceRequest.getCourseId());
+        StudentProfile studentProfile = studentServiceClient.getProfile(attendanceRequest.getStudentId());
+        CourseResponse course = courseServiceClient.getCourseById(attendanceRequest.getCourseId());
+        String courseName = course.getCourseName();
+        Set<String> coursesEnrolled = studentProfile.getCoursesEnrolled();
+        if(!coursesEnrolled.contains(courseName)) {
+            throw new BadRequestException(DID_NOT_ENROLL.getValue());
+        }
         Attendance attendance = new Attendance();
         BeanUtils.copyProperties(attendanceRequest, attendance);
         attendance.setClassDate(Date.valueOf(LocalDate.now()));

@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GradeRepository extends JpaRepository<Grade, Integer> {
 
-    @Query(value = "select grade from grades where :scoredMarks >= min_marks and :scoredMarks <= max_marks",
+    @Query(value = "select * from grades where :scoredMarks >= min_marks and :scoredMarks <= max_marks",
             nativeQuery = true)
-    String getGradeWithMarks(Integer scoredMarks);
+    Grade getGradeWithMarks(Integer scoredMarks);
 
 }

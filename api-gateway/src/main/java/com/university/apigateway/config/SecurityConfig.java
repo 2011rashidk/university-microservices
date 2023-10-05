@@ -13,7 +13,11 @@ public class SecurityConfig {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity serverHttpSecurity) {
         serverHttpSecurity
+                .csrf()
+                .disable()
                 .authorizeExchange()
+                .pathMatchers("/api/university/user/register")
+                .permitAll()
                 .anyExchange()
                 .authenticated()
                 .and()

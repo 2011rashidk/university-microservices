@@ -8,3 +8,26 @@ eureka:
 spring:
   application:
     name: student-service
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-35643909.okta.com/oauth2/default
+      client:
+        registration:
+          internal-client:
+            provider: okta
+            authorizationGrantType: client_credentials
+            scope: internal
+            clientId: 0oabnszncb9VmS6Jz5d7
+            clientSecret: 94uiGWoiISfptGSmyZ8slRFZmLAlzpMNTT6IwVzxhOJrif46U8fJmQt73ee8lnxl
+
+        provider:
+          okta:
+            issuerUri: https://dev-35643909.okta.com/oauth2/default
+
+okta:
+  oauth2:
+    issuer: https://dev-35643909.okta.com/oauth2/default
+    audience: api://default

@@ -36,6 +36,9 @@ public class User {
     @Column(name = "is_active")
     private boolean isActive;
 
+    @Column(name = "okta_reg_id")
+    private String oktaRegistrationId;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "type_id")
     private UserType userType;

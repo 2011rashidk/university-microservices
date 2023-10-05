@@ -22,7 +22,6 @@ public class GradeService {
     @Autowired
     GradeRepository gradeRepository;
 
-
     public GradeResponse createGrade(GradeRequest gradeRequest) {
         Grade grade = new Grade();
         BeanUtils.copyProperties(gradeRequest, grade);
@@ -73,7 +72,7 @@ public class GradeService {
         gradeRepository.deleteById(gradeId);
     }
 
-    public String getGradeWithMarks(Integer scoredMarks) {
+    public Grade getGradeWithMarks(Integer scoredMarks) {
         return gradeRepository.getGradeWithMarks(scoredMarks);
     }
 

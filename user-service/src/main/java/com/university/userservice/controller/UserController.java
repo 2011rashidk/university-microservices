@@ -5,6 +5,7 @@ import com.university.userservice.response.Response;
 import com.university.userservice.response.UserResponse;
 import com.university.userservice.service.UserService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping
+    @PostMapping("register")
     public ResponseEntity<Response> createUser(@Valid @RequestBody UserRequest userRequest,
                                                @RequestParam String userType) {
         log.info(USER_REQUEST.getValue(), userRequest);
@@ -51,7 +52,7 @@ public class UserController {
     @PutMapping("{userId}")
     public ResponseEntity<Response> updateUser(@PathVariable Integer userId,
                                                @Valid @RequestBody UserRequest userRequest,
-                                               @RequestParam String userType) {
+                                               @Valid @RequestParam @NotEmpty String userType) {
         log.info(USER_ID.getValue(), userId);
         log.info(USER_REQUEST.getValue(), userRequest);
         log.info(USER_TYPE.getValue(), userType);

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(name = "user-service", url = "${user.service.url}")
 public interface UserServiceClient {
 
-    @PostMapping
+    @PostMapping("register")
     ResponseEntity<Response> createStudent(@RequestBody StudentRequest studentRequest, @RequestParam String userType);
 
 

@@ -21,6 +21,6 @@ public class Grade {
     @Column(name = "max_marks")
     private Integer maxMarks;
 
-    @Column(name = "grade")
+    @Column(name = "grade", unique = true)
     private String grade;
 }

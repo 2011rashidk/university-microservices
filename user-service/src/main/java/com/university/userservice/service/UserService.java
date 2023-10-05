@@ -27,15 +27,21 @@ public class UserService {
     @Autowired
     UserTypeRepository userTypeRepository;
 
+    @Autowired
+    OktaRegistrationService oktaRegistrationService;
+
     public UserResponse createUser(UserRequest userRequest, String userType) {
         UserType type = userTypeRepository.findByTypeName(userType);
         if (type == null) {
             throw new NotFoundException(USER_TYPE_NOT_FOUND.getValue());
         }
+        String oktaRegistrationId = oktaRegistrationService.registerOnOkta(userRequest, userType);
+        log.info(OKTA_REGISTRATION_ID.getValue(), oktaRegistrationId);
         User user = new User();
         BeanUtils.copyProperties(userRequest, user);
         user.setUserType(type);
         user.setActive(true);
+        user.setOktaRegistrationId(oktaRegistrationId);
         User savedUser = userRepository.save(user);
         UserResponse userResponse = new UserResponse();
         BeanUtils.copyProperties(savedUser, userResponse);
@@ -65,7 +71,7 @@ public class UserService {
     }
 
     public UserResponse updateUser(Integer userId, UserRequest userRequest, String userType) {
-        userRepository.findById(userId).orElseThrow(() -> new NotFoundException(USER_NOT_FOUND.getValue()));
+        User existingUserData = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(USER_NOT_FOUND.getValue()));
         UserType type = userTypeRepository.findByTypeName(userType);
         if (type == null) {
             throw new NotFoundException(USER_TYPE_NOT_FOUND.getValue());
@@ -75,6 +81,7 @@ public class UserService {
         user.setUserId(userId);
         user.setUserType(type);
         user.setActive(true);
+        user.setOktaRegistrationId(existingUserData.getOktaRegistrationId());
         User updatedUser = userRepository.save(user);
         UserResponse userResponse = new UserResponse();
         BeanUtils.copyProperties(updatedUser, userResponse);

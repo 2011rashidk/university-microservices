@@ -9,7 +9,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,8 +23,7 @@ public class AuthController {
 
     @GetMapping("login")
     public ResponseEntity<AuthResponse> login(@RegisteredOAuth2AuthorizedClient("okta") OAuth2AuthorizedClient oAuth2AuthorizedClient,
-                                              @AuthenticationPrincipal OidcUser oidcUser,
-                                              Model model) {
+                                              @AuthenticationPrincipal OidcUser oidcUser) {
         log.info(oidcUser.getEmail());
         AuthResponse authResponse = AuthResponse.builder()
                 .userId(oidcUser.getEmail())

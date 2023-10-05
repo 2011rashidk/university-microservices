@@ -22,8 +22,9 @@ public class StudentGrade {
     @Column(name = "course_id")
     private Integer courseId;
 
-    @Column(name = "grade")
-    private String grade;
+    @ManyToOne
+    @JoinColumn(name = "grade", referencedColumnName = "grade")
+    private Grade grade;
 
     @Column(name = "comments")
     private String comments;

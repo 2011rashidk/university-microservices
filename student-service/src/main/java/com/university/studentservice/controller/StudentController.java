@@ -22,7 +22,7 @@ public class StudentController {
     @Autowired
     StudentService studentService;
 
-    @PostMapping
+    @PostMapping("register")
     public ResponseEntity<Response> createStudent(@Valid @RequestBody StudentRequest studentRequest) {
         log.info(STUDENT_REQUEST.getValue(), studentRequest);
         return studentService.createStudent(studentRequest);

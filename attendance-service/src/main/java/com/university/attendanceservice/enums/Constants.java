@@ -12,7 +12,8 @@ public enum Constants {
     TO_DATE("toDate: {}"),
     SPACE(" "),
     COURSE_ATTENDANCE_DETAILS("Course attendance details: {}"),
-    DATE_WISE_ATTENDANCE("Date wise attendance: {}");
+    DATE_WISE_ATTENDANCE("Date wise attendance: {}"),
+    DID_NOT_ENROLL("Given course not enrolled by student!");
 
     private final String value;
 

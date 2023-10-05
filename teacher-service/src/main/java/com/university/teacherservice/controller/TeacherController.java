@@ -22,7 +22,7 @@ public class TeacherController {
     @Autowired
     TeacherService teacherService;
 
-    @PostMapping
+    @PostMapping("register")
     public ResponseEntity<Response> createTeacher(@Valid @RequestBody TeacherRequest teacherRequest) {
         log.info(TEACHER_REQUEST.getValue(), teacherRequest);
         return teacherService.createTeacher(teacherRequest);

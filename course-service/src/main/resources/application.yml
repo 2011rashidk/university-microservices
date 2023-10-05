@@ -8,3 +8,8 @@ eureka:
 spring:
   application:
     name: course-service
+
+okta:
+  oauth2:
+    issuer: https://dev-35643909.okta.com/oauth2/default
+    audience: api://default

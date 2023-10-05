@@ -17,7 +17,10 @@ public enum Constants {
     USER_TYPE_RETRIEVED("User types retrieved successfully"),
     USER_TYPE_ID("userTypeId: {}"),
     USER_TYPE_UPDATED("User type updated successfully"),
-    USER_TYPE_RESPONSE("userTypeResponse: {}");
+    USER_TYPE_RESPONSE("userTypeResponse: {}"),
+    OKTA_REGISTRATION_REQUEST("oktaRegistrationRequest: {}"),
+    USER_NOT_REGISTERED_ON_OKTA("USER_NOT_REGISTERED_ON_OKTA"),
+    OKTA_REGISTRATION_ID("oktaRegistrationId: {}");
     private final String value;
 
     Constants(String value) {
