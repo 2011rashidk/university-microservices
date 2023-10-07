@@ -16,6 +16,14 @@
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2022.0.4</spring-cloud.version>
+		<sonar.coverage.exclusions>
+			**/config/*,
+			**/exception/*,
+			**/request/*,
+			**/response/*,
+			**/OktaRegistrationService.java,
+			**/UserServiceApplication.java
+		</sonar.coverage.exclusions>
 	</properties>
 	<dependencies>
 		<dependency>

@@ -37,25 +37,25 @@ public class GradeController {
     }
 
     @GetMapping("{gradeId}")
-    public GradeResponse getGrade(@PathVariable Integer gradeId) {
+    public GradeResponse getGradeById(@PathVariable Integer gradeId) {
         log.info(GRADE_ID.getValue(), gradeId);
-        return gradeService.getGrade(gradeId);
+        return gradeService.getGradeById(gradeId);
     }
 
     @PutMapping("{gradeId}")
-    public ResponseEntity<Response> updateGrade(@PathVariable Integer gradeId,
+    public ResponseEntity<Response> updateGradeById(@PathVariable Integer gradeId,
                                                 @Valid @RequestBody GradeRequest gradeRequest) {
         log.info(GRADE_ID.getValue(), gradeId);
         log.info(GRADE_REQUEST.getValue(), gradeRequest);
-        GradeResponse gradeResponse = gradeService.updateGrade(gradeId, gradeRequest);
+        GradeResponse gradeResponse = gradeService.updateGradeById(gradeId, gradeRequest);
         return new ResponseEntity<>(
                 new Response(HttpStatus.OK, GRADED_UPDATED.getValue(), gradeResponse), HttpStatus.OK);
     }
 
     @DeleteMapping("{gradeId}")
-    public ResponseEntity<HttpStatus> deleteGrade(@PathVariable Integer gradeId) {
+    public ResponseEntity<HttpStatus> deleteGradeById(@PathVariable Integer gradeId) {
         log.info(GRADE_ID.getValue(), gradeId);
-        gradeService.deleteGrade(gradeId);
+        gradeService.deleteGradeById(gradeId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

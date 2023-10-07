@@ -39,8 +39,9 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserResponse> getUsers() {
-        return userService.getUsers();
+    public List<UserResponse> getUsers(@RequestParam(required = false) Integer pageNo,
+                                       @RequestParam(required = false) Integer pageSize) {
+        return userService.getUsers(pageNo, pageSize);
     }
 
     @GetMapping("{userId}")

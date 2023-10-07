@@ -12,6 +12,9 @@ import com.university.studentservice.response.UserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -61,10 +64,16 @@ public class StudentProfileService {
         return savedStudentProfile;
     }
 
-    public List<StudentProfile> getProfiles() {
-        List<StudentProfile> studentProfileList = studentProfileRepository.findAll();
+    public List<StudentProfile> getProfiles(Integer pageNo, Integer pageSize) {
+        Pageable pageable;
+        if (pageNo == null || pageSize == null) {
+            pageable = Pageable.unpaged();
+        } else {
+            pageable = PageRequest.of(pageNo, pageSize);
+        }
+        Page<StudentProfile> studentProfileList = studentProfileRepository.findAll(pageable);
         log.info(STUDENT_PROFILE.getValue(), studentProfileList);
-        return studentProfileList;
+        return studentProfileList.getContent();
     }
 
     public StudentProfile getProfile(String studentId) {

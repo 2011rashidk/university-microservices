@@ -12,6 +12,9 @@ import com.university.teacherservice.response.UserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -58,10 +61,16 @@ public class TeacherProfileService {
         return savedTeacherProfile;
     }
 
-    public List<TeacherProfile> getProfiles() {
-        List<TeacherProfile> teacherProfileList = teacherProfileRepository.findAll();
+    public List<TeacherProfile> getProfiles(Integer pageNo, Integer pageSize) {
+        Pageable pageable;
+        if (pageNo == null || pageSize == null) {
+            pageable = Pageable.unpaged();
+        } else {
+            pageable = PageRequest.of(pageNo, pageSize);
+        }
+        Page<TeacherProfile> teacherProfileList = teacherProfileRepository.findAll(pageable);
         log.info(TEACHER_PROFILE.getValue(), teacherProfileList);
-        return teacherProfileList;
+        return teacherProfileList.getContent();
     }
 
     public TeacherProfile getProfile(String teacherId) {

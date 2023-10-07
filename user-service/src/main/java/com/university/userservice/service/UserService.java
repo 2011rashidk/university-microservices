@@ -10,6 +10,9 @@ import com.university.userservice.response.UserResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -45,16 +48,24 @@ public class UserService {
         User savedUser = userRepository.save(user);
         UserResponse userResponse = new UserResponse();
         BeanUtils.copyProperties(savedUser, userResponse);
+        userResponse.setUserType(savedUser.getUserType().getTypeName());
         log.info(USER_RESPONSE.getValue(), userResponse);
         return userResponse;
     }
 
-    public List<UserResponse> getUsers() {
-        List<User> users = userRepository.findAll();
+    public List<UserResponse> getUsers(Integer pageNo, Integer pageSize) {
+        Pageable pageable;
+        if (pageNo == null || pageSize == null) {
+            pageable = Pageable.unpaged();
+        } else {
+            pageable = PageRequest.of(pageNo, pageSize);
+        }
+        Page<User> users = userRepository.findAll(pageable);
         List<UserResponse> userResponses = new ArrayList<>();
         for (User user : users) {
             UserResponse userResponse = new UserResponse();
             BeanUtils.copyProperties(user, userResponse);
+            userResponse.setUserType(user.getUserType().getTypeName());
             userResponses.add(userResponse);
         }
         log.info(USER_RESPONSE.getValue(), userResponses);

@@ -44,7 +44,7 @@ public class GradeService {
         return gradeResponseList;
     }
 
-    public GradeResponse getGrade(Integer gradeId) {
+    public GradeResponse getGradeById(Integer gradeId) {
         GradeResponse gradeResponse = new GradeResponse();
         Grade grade = gradeRepository.findById(gradeId)
                 .orElseThrow(() -> new NotFoundException(GRADE_NOT_FOUND.getValue()));
@@ -53,9 +53,12 @@ public class GradeService {
         return gradeResponse;
     }
 
-    public GradeResponse updateGrade(Integer gradeId, GradeRequest gradeRequest) {
-        gradeRepository.findById(gradeId)
-                .orElseThrow(() -> new NotFoundException(GRADE_NOT_FOUND.getValue()));
+    public GradeResponse updateGradeById(Integer gradeId, GradeRequest gradeRequest) {
+        boolean isEmpty = gradeRepository.findById(gradeId).isEmpty();
+        if (isEmpty) {
+            log.error(GRADE_NOT_FOUND.getValue());
+            throw new NotFoundException(GRADE_NOT_FOUND.getValue());
+        }
         Grade grade = new Grade();
         BeanUtils.copyProperties(gradeRequest, grade);
         grade.setGradeId(gradeId);
@@ -66,14 +69,17 @@ public class GradeService {
         return gradeResponse;
     }
 
-    public void deleteGrade(Integer gradeId) {
-        gradeRepository.findById(gradeId)
-                .orElseThrow(() -> new NotFoundException(GRADE_NOT_FOUND.getValue()));
+    public void deleteGradeById(Integer gradeId) {
+        boolean isEmpty = gradeRepository.findById(gradeId).isEmpty();
+        if (isEmpty) {
+            log.error(GRADE_NOT_FOUND.getValue());
+            throw new NotFoundException(GRADE_NOT_FOUND.getValue());
+        }
         gradeRepository.deleteById(gradeId);
     }
 
-    public Grade getGradeWithMarks(Integer scoredMarks) {
-        return gradeRepository.getGradeWithMarks(scoredMarks);
+    public Grade getGradeByMarks(Integer scoredMarks) {
+        return gradeRepository.getGradeByMarks(scoredMarks);
     }
 
 }

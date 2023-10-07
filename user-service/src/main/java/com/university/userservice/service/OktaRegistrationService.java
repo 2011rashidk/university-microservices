@@ -1,5 +1,6 @@
 package com.university.userservice.service;
 
+import com.university.userservice.exception.NotFoundException;
 import com.university.userservice.request.UserRequest;
 import com.university.userservice.response.OktaRegistrationResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +49,7 @@ public class OktaRegistrationService {
             case "ADMIN" -> groupId = oktaAdminId;
             case "TEACHER" -> groupId = oktaTeacherId;
             case "STUDENT" -> groupId = oktaStudentId;
+            default -> throw new NotFoundException("Unexpected value: " + userType);
         }
 
         Map<String, Object> oktaRegRequest = new HashMap<>();

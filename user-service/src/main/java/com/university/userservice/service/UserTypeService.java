@@ -55,7 +55,11 @@ public class UserTypeService {
 
 
     public UserTypeResponse updateUserTypeById(Integer userTypeId, UserTypeRequest userTypeRequest) {
-        userTypeRepository.findById(userTypeId).orElseThrow(() -> new NotFoundException(USER_TYPE_NOT_FOUND.getValue()));
+        boolean isEmpty = userTypeRepository.findById(userTypeId).isEmpty();
+        if (isEmpty) {
+            log.error(USER_TYPE_NOT_FOUND.getValue());
+            throw new NotFoundException(USER_TYPE_NOT_FOUND.getValue());
+        }
         UserType userType = new UserType();
         BeanUtils.copyProperties(userTypeRequest, userType);
         userType.setTypeId(userTypeId);
@@ -67,7 +71,11 @@ public class UserTypeService {
     }
 
     public void deleteUserTypeById(Integer userTypeId) {
-        userTypeRepository.findById(userTypeId).orElseThrow(() -> new NotFoundException(USER_TYPE_NOT_FOUND.getValue()));
+        boolean isEmpty = userTypeRepository.findById(userTypeId).isEmpty();
+        if (isEmpty) {
+            log.error(USER_TYPE_NOT_FOUND.getValue());
+            throw new NotFoundException(USER_TYPE_NOT_FOUND.getValue());
+        }
         userTypeRepository.deleteById(userTypeId);
     }
 

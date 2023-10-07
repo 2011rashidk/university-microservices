@@ -37,8 +37,9 @@ public class TeacherProfileController {
     }
 
     @GetMapping
-    public ResponseEntity<Response> getProfiles() {
-        List<TeacherProfile> teacherProfile = teacherProfileService.getProfiles();
+    public ResponseEntity<Response> getProfiles(@RequestParam(required = false) Integer pageNo,
+                                                @RequestParam(required = false) Integer pageSize) {
+        List<TeacherProfile> teacherProfile = teacherProfileService.getProfiles(pageNo, pageSize);
         return new ResponseEntity<>(Response.builder()
                 .httpStatus(HttpStatus.OK)
                 .message(TEACHER_PROFILE_RETRIEVED.getValue())

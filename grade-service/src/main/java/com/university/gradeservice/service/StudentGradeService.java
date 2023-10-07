@@ -46,7 +46,7 @@ public class StudentGradeService {
         }
         StudentGrade studentGrade = new StudentGrade();
         BeanUtils.copyProperties(studentGradeRequest, studentGrade);
-        Grade grade = gradeService.getGradeWithMarks(studentGradeRequest.getMarks());
+        Grade grade = gradeService.getGradeByMarks(studentGradeRequest.getMarks());
         studentGrade.setGrade(grade);
         StudentGrade savedStudentGrade = studentGradeRepository.save(studentGrade);
         log.info(SAVED_STUDENT_GRADE.getValue(), savedStudentGrade);

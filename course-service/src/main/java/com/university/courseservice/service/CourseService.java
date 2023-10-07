@@ -22,7 +22,6 @@ public class CourseService {
     @Autowired
     CourseRepository courseRepository;
 
-
     public CourseResponse createCourse(CourseRequest courseRequest) {
         Course course = new Course();
         BeanUtils.copyProperties(courseRequest, course);
@@ -54,9 +53,12 @@ public class CourseService {
         return courseResponse;
     }
 
-    public CourseResponse updateCourse(Integer courseId, CourseRequest courseRequest) {
-        courseRepository.findById(courseId)
-                .orElseThrow(() -> new NotFoundException(NO_COURSE_FOUND.getValue()));
+    public CourseResponse updateCourseById(Integer courseId, CourseRequest courseRequest) {
+        boolean isEmpty = courseRepository.findById(courseId).isEmpty();
+        if (isEmpty) {
+            log.error(NO_COURSE_FOUND.getValue());
+            throw new NotFoundException(NO_COURSE_FOUND.getValue());
+        }
         Course course = new Course();
         BeanUtils.copyProperties(courseRequest, course);
         course.setCourseId(courseId);
@@ -68,7 +70,7 @@ public class CourseService {
         return courseResponse;
     }
 
-    public void deleteCourse(Integer courseId) {
+    public void deleteCourseById(Integer courseId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new NotFoundException(NO_COURSE_FOUND.getValue()));
         course.setActive(false);

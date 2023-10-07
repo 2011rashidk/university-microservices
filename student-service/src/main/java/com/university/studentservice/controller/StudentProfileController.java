@@ -37,8 +37,9 @@ public class StudentProfileController {
     }
 
     @GetMapping
-    public ResponseEntity<Response> getProfiles() {
-        List<StudentProfile> studentProfile = studentProfileService.getProfiles();
+    public ResponseEntity<Response> getProfiles(@RequestParam(required = false) Integer pageNo,
+                                                @RequestParam(required = false) Integer pageSize) {
+        List<StudentProfile> studentProfile = studentProfileService.getProfiles(pageNo, pageSize);
         return new ResponseEntity<>(Response.builder()
                 .httpStatus(HttpStatus.OK)
                 .message(STUDENT_PROFILE_RETRIEVED.getValue())

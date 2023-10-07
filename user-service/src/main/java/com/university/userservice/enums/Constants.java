@@ -14,7 +14,7 @@ public enum Constants {
     EXCEPTION("Exception: {}"),
     USER_TYPE_REQUEST("userTypeRequest: {}"),
     USER_TYPE_CREATED("User type created successfully"),
-    USER_TYPE_RETRIEVED("User types retrieved successfully"),
+    USER_TYPE_RETRIEVED("User type retrieved successfully"),
     USER_TYPE_ID("userTypeId: {}"),
     USER_TYPE_UPDATED("User type updated successfully"),
     USER_TYPE_RESPONSE("userTypeResponse: {}"),

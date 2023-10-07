@@ -44,20 +44,20 @@ public class CourseController {
     }
 
     @PutMapping("{courseId}")
-    public ResponseEntity<Response> updateCourse(@PathVariable Integer courseId,
+    public ResponseEntity<Response> updateCourseById(@PathVariable Integer courseId,
                                                  @Valid @RequestBody CourseRequest courseRequest) {
         log.info(COURSE_ID.getValue(), courseId);
         log.info(COURSE_REQUEST.getValue(), courseRequest);
-        CourseResponse courseResponse = courseService.updateCourse(courseId, courseRequest);
+        CourseResponse courseResponse = courseService.updateCourseById(courseId, courseRequest);
         return new ResponseEntity<>(
                 new Response(HttpStatus.OK, COURSE_UPDATED.getValue(), courseResponse),
                 HttpStatus.OK);
     }
 
     @DeleteMapping("{courseId}")
-    public ResponseEntity<HttpStatus> deleteCourse(@PathVariable Integer courseId) {
+    public ResponseEntity<HttpStatus> deleteCourseById(@PathVariable Integer courseId) {
         log.info(COURSE_ID.getValue(), courseId);
-        courseService.deleteCourse(courseId);
+        courseService.deleteCourseById(courseId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
