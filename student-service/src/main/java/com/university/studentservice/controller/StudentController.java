@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.university.studentservice.enums.Constants.*;
 
 
@@ -28,6 +30,12 @@ public class StudentController {
         return studentService.createStudent(studentRequest);
     }
 
+    @GetMapping
+    public List<UserInfo> getStudents(@RequestParam(required = false) Integer pageNo,
+                                      @RequestParam(required = false) Integer pageSize) {
+        return studentService.getStudents(pageNo, pageSize);
+    }
+
     @GetMapping("{userId}")
     public UserInfo getStudentById(@PathVariable Integer userId) {
         log.info(USER_ID.getValue(), userId);
@@ -35,17 +43,17 @@ public class StudentController {
     }
 
     @PutMapping("{userId}")
-    public ResponseEntity<Response> updateStudent(@PathVariable Integer userId,
+    public ResponseEntity<Response> updateStudentById(@PathVariable Integer userId,
                                                   @Valid @RequestBody StudentRequest studentRequest) {
         log.info(USER_ID.getValue(), userId);
         log.info(STUDENT_REQUEST.getValue(), studentRequest);
-        return studentService.updateStudent(userId, studentRequest);
+        return studentService.updateStudentById(userId, studentRequest);
     }
 
     @DeleteMapping("{userId}")
-    public ResponseEntity<HttpStatus> deleteStudent(@PathVariable Integer userId) {
+    public ResponseEntity<HttpStatus> deleteStudentById(@PathVariable Integer userId) {
         log.info(USER_ID.getValue(), userId);
-        return studentService.deleteStudent(userId);
+        return studentService.deleteStudentById(userId);
     }
 
 }

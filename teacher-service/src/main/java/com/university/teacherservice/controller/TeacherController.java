@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.university.teacherservice.enums.Constants.*;
 
 
@@ -28,6 +30,12 @@ public class TeacherController {
         return teacherService.createTeacher(teacherRequest);
     }
 
+    @GetMapping
+    public List<UserInfo> getTeachers(@RequestParam(required = false) Integer pageNo,
+                                      @RequestParam(required = false) Integer pageSize) {
+        return teacherService.getTeachers(pageNo, pageSize);
+    }
+
     @GetMapping("{userId}")
     public UserInfo getTeacherById(@PathVariable Integer userId) {
         log.info(USER_ID.getValue(), userId);
@@ -35,17 +43,17 @@ public class TeacherController {
     }
 
     @PutMapping("{userId}")
-    public ResponseEntity<Response> updateTeacher(@PathVariable Integer userId,
-                                                  @Valid @RequestBody TeacherRequest teacherRequest) {
+    public ResponseEntity<Response> updateTeacherById(@PathVariable Integer userId,
+                                                      @Valid @RequestBody TeacherRequest teacherRequest) {
         log.info(USER_ID.getValue(), userId);
         log.info(TEACHER_REQUEST.getValue(), teacherRequest);
-        return teacherService.updateTeacher(userId, teacherRequest);
+        return teacherService.updateTeacherById(userId, teacherRequest);
     }
 
     @DeleteMapping("{userId}")
-    public ResponseEntity<HttpStatus> deleteTeacher(@PathVariable Integer userId) {
+    public ResponseEntity<HttpStatus> deleteTeacherById(@PathVariable Integer userId) {
         log.info(USER_ID.getValue(), userId);
-        return teacherService.deleteTeacher(userId);
+        return teacherService.deleteTeacherById(userId);
     }
 
 }

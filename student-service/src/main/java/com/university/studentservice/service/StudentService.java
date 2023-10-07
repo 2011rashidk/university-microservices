@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.university.studentservice.enums.Constants.*;
 
 @Service
@@ -25,20 +27,26 @@ public class StudentService {
         return response;
     }
 
+    public List<UserInfo> getStudents(Integer pageNo, Integer pageSize) {
+        List<UserInfo> teachers = userServiceClient.getStudents(STUDENT.getValue(), pageNo, pageSize);
+        log.info(RESPONSE.getValue(), teachers);
+        return teachers;
+    }
+
     public UserInfo getStudentById(Integer userId) {
         UserInfo userInfo = userServiceClient.getStudentById(userId);
         log.info(RESPONSE.getValue(), userInfo);
         return userInfo;
     }
 
-    public ResponseEntity<Response> updateStudent(Integer userId, StudentRequest studentRequest) {
-        ResponseEntity<Response> response = userServiceClient.updateStudent(userId, studentRequest, STUDENT.getValue());
+    public ResponseEntity<Response> updateStudentById(Integer userId, StudentRequest studentRequest) {
+        ResponseEntity<Response> response = userServiceClient.updateStudentById(userId, studentRequest, STUDENT.getValue());
         log.info(RESPONSE.getValue(), response.getBody());
         return response;
     }
 
-    public ResponseEntity<HttpStatus> deleteStudent(Integer userId) {
-        ResponseEntity<HttpStatus> response = userServiceClient.deleteStudent(userId);
+    public ResponseEntity<HttpStatus> deleteStudentById(Integer userId) {
+        ResponseEntity<HttpStatus> response = userServiceClient.deleteStudentById(userId);
         log.info(RESPONSE.getValue(), response.getStatusCode());
         return response;
     }

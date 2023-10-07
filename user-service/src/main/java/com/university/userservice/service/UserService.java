@@ -53,14 +53,20 @@ public class UserService {
         return userResponse;
     }
 
-    public List<UserResponse> getUsers(Integer pageNo, Integer pageSize) {
+    public List<UserResponse> getUsers(String userType, Integer pageNo, Integer pageSize) {
         Pageable pageable;
         if (pageNo == null || pageSize == null) {
             pageable = Pageable.unpaged();
         } else {
             pageable = PageRequest.of(pageNo, pageSize);
         }
-        Page<User> users = userRepository.findAll(pageable);
+        Page<User> users;
+        UserType type = userTypeRepository.findByTypeName(userType);
+        if (userType == null) {
+            users = userRepository.findAll(pageable);
+        } else {
+            users = userRepository.findAllByUserType(type, pageable);
+        }
         List<UserResponse> userResponses = new ArrayList<>();
         for (User user : users) {
             UserResponse userResponse = new UserResponse();
