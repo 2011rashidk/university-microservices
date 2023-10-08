@@ -17,7 +17,7 @@
 		<java.version>17</java.version>
 		<spring-cloud.version>2022.0.4</spring-cloud.version>
 		<sonar.coverage.exclusions>
-			**/config/*,
+			**/config/**/*,
 			**/exception/*,
 			**/request/*,
 			**/response/*,

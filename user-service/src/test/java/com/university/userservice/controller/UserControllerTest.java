@@ -46,16 +46,27 @@ class UserControllerTest {
         assertEquals(userResponse, responseEntity.getBody().getData());
     }
 
-//    @Test
-//    void testGetUsers() {
-//        List<UserResponse> expectedUsers = Collections.singletonList(new UserResponse());
-//
-//        when(userService.getUsers()).thenReturn(expectedUsers);
-//
-//        List<UserResponse> actualUsers = userController.getUsers();
-//
-//        assertEquals(expectedUsers, actualUsers);
-//    }
+    @Test
+    void testGetUsers() {
+        List<UserResponse> userResponses = Collections.singletonList(new UserResponse());
+
+        when(userService.getUsers("STUDENT", 0, 5)).thenReturn(userResponses);
+
+        List<UserResponse> result = userController.getUsers("STUDENT", 0, 5);
+
+        assertEquals(userResponses, result);
+    }
+
+    @Test
+    void testGetUsersForNullRequest() {
+        List<UserResponse> userResponses = Collections.singletonList(new UserResponse());
+
+        when(userService.getUsers(null, null, null)).thenReturn(userResponses);
+
+        List<UserResponse> result = userController.getUsers(null, null, null);
+
+        assertEquals(userResponses, result);
+    }
 
     @Test
     void testGetUserById() {

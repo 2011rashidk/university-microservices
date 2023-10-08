@@ -13,8 +13,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,22 +72,38 @@ class UserServiceTest {
         assertEquals("K", userResponse.getLastname());
     }
 
-//    @Test
-//    void testGetUsers() {
-//        List<User> users = new ArrayList<>();
-//        User user = new User();
-//        user.setFirstname("Rashid");
-//        user.setLastname("K");
-//        users.add(user);
-//
-//        when(userRepository.findAll()).thenReturn(users);
-//
-//        List<UserResponse> userResponses = userService.getUsers();
-//
-//        assertEquals(1, userResponses.size());
-//        assertEquals("Rashid", userResponses.get(0).getFirstname());
-//        assertEquals("K", userResponses.get(0).getLastname());
-//    }
+    @Test
+    void testGetUsers() {
+        UserType userType = new UserType();
+        userType.setTypeName("ADMIN");
+        User user1 = new User();
+        user1.setUserId(1);
+        user1.setFirstname("Rashid");
+        user1.setLastname("K");
+        user1.setUserType(userType);
+
+        User user2 = new User();
+        user2.setUserId(1);
+        user2.setFirstname("Rashid");
+        user2.setLastname("K");
+        user2.setUserType(userType);
+        List<User> userList = List.of(user1, user2);
+
+        Pageable pageable = PageRequest.of(0, 1);
+
+        Page<User> users = new PageImpl<>(userList, pageable, userList.size());
+
+        when(userRepository.findAll(any(Pageable.class))).thenReturn(Page.empty());
+        when(userTypeRepository.findByTypeName("ADMIN")).thenReturn(userType);
+        when(userRepository.findAllByUserType(userType, Pageable.unpaged())).thenReturn(users);
+
+        List<UserResponse> userResponses = userService.getUsers("ADMIN", null, null);
+
+        verify(userTypeRepository).findByTypeName("ADMIN");
+        verify(userRepository).findAllByUserType(userType, Pageable.unpaged());
+
+        assertEquals(2, userResponses.size());
+    }
 
     @Test
     void testGetUserById() {
