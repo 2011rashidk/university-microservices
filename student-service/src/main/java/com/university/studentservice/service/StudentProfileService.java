@@ -108,8 +108,11 @@ public class StudentProfileService {
     }
 
     public Map<String, Set<String>> enrollCourse(String studentId, CourseRequest courseRequest) {
-        studentProfileRepository.findById(studentId)
-                .orElseThrow(() -> new NotFoundException(STUDENT_PROFILE_NOT_FOUND.getValue()));
+        boolean isEmpty = studentProfileRepository.findById(studentId).isEmpty();
+        if (isEmpty) {
+            log.error(STUDENT_PROFILE_NOT_FOUND.getValue());
+            throw new NotFoundException(STUDENT_PROFILE_NOT_FOUND.getValue());
+        }
         List<CourseResponse> availableCourses = courseServiceClient.getCourses();
         Set<String> availableCoursesName = availableCourses.stream().map(CourseResponse::getCourseName).collect(Collectors.toSet());
         log.info(AVAILABLE_COURSES.getValue(), availableCoursesName);

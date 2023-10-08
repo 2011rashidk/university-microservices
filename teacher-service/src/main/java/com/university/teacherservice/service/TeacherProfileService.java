@@ -105,6 +105,11 @@ public class TeacherProfileService {
     }
 
     public Map<String, Set<String>> assignCourse(String teacherId, CourseRequest courseRequest) {
+        boolean isEmpty = teacherProfileRepository.findById(teacherId).isEmpty();
+        if (isEmpty) {
+            log.error(TEACHER_PROFILE_NOT_FOUND.getValue());
+            throw new NotFoundException(TEACHER_PROFILE_NOT_FOUND.getValue());
+        }
         List<CourseResponse> availableCourses = courseServiceClient.getCourses();
         Set<String> availableCoursesName = availableCourses.stream().map(CourseResponse::getCourseName).collect(Collectors.toSet());
         log.info(AVAILABLE_COURSES.getValue(), availableCoursesName);
